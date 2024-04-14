@@ -1,17 +1,28 @@
-import './App.css';
-import ContactForm from './components/ContactFrom/ContactForm';
-import SearchBox from './components/SearchBox/SearchBox';
-import ContactList from './components/ContactList/ContactList';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { Layout } from './components/Layout/Layout'
+import { AppBar } from './components/AppBar/AppBar';
+import { TaskForm } from './components/TaskForm/TaskForm';
+import { TaskList } from './components/TaskList/TaskList';
+import { fetchTasks } from './redux/operations';
+import { selectError, selectIsLoading } from './redux/selectors';
 
 const App = () => {
+  const dispatch = useDispatch();
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
+
+  useEffect(() => {
+    dispatch(fetchTasks());
+  }, [dispatch]);
 
   return (
-    <div>
-      <h1 className='PhoneBookTittle'>Welcome to your phonebook</h1>
-      <ContactForm />
-      <SearchBox />
-      <ContactList />
-    </div>
+    <Layout>
+      <AppBar />
+      <TaskForm />
+      {isLoading && !error && <b>Request in progress...</b>}
+      <TaskList />
+    </Layout>
   );
 };
 
