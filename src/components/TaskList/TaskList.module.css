@@ -7,3 +7,7 @@
 .listItem+.listItem {
     border-top: 1px solid #2f2f37;
 }
+
+.listItem {
+    margin-bottom: 10px;
+}
